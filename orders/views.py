@@ -12,7 +12,7 @@ def menu(request):
     context = {
         "page_text": "This is Pinnochio's Pizza menu!"
     }
-    return render(request, "orders/index.html", context)
+    return render(request, "orders/menu.html", context)
 
 def cart(request):
     context = {
