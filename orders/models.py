@@ -50,7 +50,7 @@ class Pasta(models.Model):
     def __str__(self):
         return f"{self.name}: price {self.price}"
 
-class Salads(models.Model):
+class Salad(models.Model):
     name = models.CharField(max_length=64)
     price = models.DecimalField(max_digits = 10, decimal_places=2)
 
