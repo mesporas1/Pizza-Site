@@ -1,11 +1,12 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 
 # Create your models here.
 
-TYPES = ( ('SIC', 'Sicilian'), ('REG', 'Regular'))
-SIZES = ( ('S', 'Small'), ('L', 'Large'))
+'''TYPES = ( ('SIC', 'Sicilian'), ('REG', 'Regular'))
+SIZES = ( ('S', 'Small'), ('L', 'Large'))'''
 
-class Topping(models.Model):
+'''class Topping(models.Model):
     name = models.CharField(max_length=64)
 
     def __str__(self):
@@ -56,3 +57,15 @@ class Salad(models.Model):
 
     def __str__(self):
         return f"{self.name}: price {self.price}"
+'''
+
+class Food(models.Model):
+    
+    type = models.CharField(max_length = 64)
+    price = models.DecimalField(max_digits = 10, decimal_places=2,validators=[MinValueValidator(0)])
+    size = models.CharField(max_length = 64)
+    options = (('true', 'Yes'), ('false', 'No'))
+    hasToppings = models.CharField(max_length = 5, choices = options, default = 'false')
+    numToppings = models.PositiveIntegerField(default = 0)
+    def __str__(self):
+        return f"{self.size} {self.type} price {self.price} has toppings: {self.hasToppings} number of toppings: {self.numToppings}"
