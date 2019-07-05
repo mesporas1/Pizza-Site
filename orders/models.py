@@ -59,13 +59,28 @@ class Salad(models.Model):
         return f"{self.name}: price {self.price}"
 '''
 
+
+class Item(models.Model):
+    name = models.CharField(max_length = 64)
+    
+    def __str__(self):
+        return f"{self.name}"
+
+class Size(models.Model):
+    name = models.CharField(max_length = 64)
+
+    def __str__(self):
+        return f"{self.name}"
+
 class Food(models.Model):
     
-    type = models.CharField(max_length = 64)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="FoodItem")
     price = models.DecimalField(max_digits = 10, decimal_places=2,validators=[MinValueValidator(0)])
-    size = models.CharField(max_length = 64)
+    size = models.ForeignKey(Size, on_delete=models.CASCADE, related_name="Size")
     options = (('true', 'Yes'), ('false', 'No'))
     hasToppings = models.CharField(max_length = 5, choices = options, default = 'false')
     numToppings = models.PositiveIntegerField(default = 0)
     def __str__(self):
-        return f"{self.size} {self.type} price {self.price} has toppings: {self.hasToppings} number of toppings: {self.numToppings}"
+        return f"{self.size} {self.item} price {self.price} has toppings: {self.hasToppings} number of toppings: {self.numToppings}"
+
+
