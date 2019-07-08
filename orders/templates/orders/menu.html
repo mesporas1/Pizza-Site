@@ -13,7 +13,7 @@
   <h2>Pizza</h2>
    {% for pizza in pizzas %}
       <li>
-        {{ pizza.size }} {{ pizza.type }} {{ pizza.price }} {{ pizza.numToppings }}
+        {{ pizza.size }} {{ pizza.type }} {{ pizza.numToppings }} Toppings pizza ${{ pizza.price }}
       </li>
     {% endfor %}
 
@@ -23,28 +23,28 @@
 
     {% for sub in subs %}
       <li>
-        {{sub.size}} {{ sub.type }} {{sub.price}}
+        {{sub.size}} {{ sub.type }} ${{sub.price}}
       </li>
     {% endfor %}
 
   <h2>Pasta</h2>
    {% for pasta in pastas %}
       <li>
-         {{ pasta.name }} {{pasta.price}}
+         {{ pasta.name }} ${{pasta.price}}
       </li>
     {% endfor %}
 
   <h2>Salad</h2>
     {% for salad in salads %}
       <li>
-        {{ salad.name }} {{salad.price}}
+        {{ salad.name }} ${{salad.price}}
       </li>
     {% endfor %}
 
   <h2>Dinner Platters</h2>
     {% for dinner in dinners %}
       <li>
-        {{ dinner.size }}{{ dinner.name }} {{dinner.price}}
+        {{ dinner.size }} {{ dinner.name }} ${{dinner.price}}
       </li>
     {% endfor %}
   

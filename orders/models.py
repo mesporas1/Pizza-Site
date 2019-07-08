@@ -3,63 +3,6 @@ from django.core.validators import MinValueValidator
 
 # Create your models here.
 
-'''TYPES = ( ('SIC', 'Sicilian'), ('REG', 'Regular'))
-SIZES = ( ('S', 'Small'), ('L', 'Large'))'''
-
-'''class Topping(models.Model):
-    name = models.CharField(max_length=64)
-
-    def __str__(self):
-        return f"{self.name}"
-
-class Pizza(models.Model):
-    type = models.CharField(max_length = 3, choices = TYPES)
-    price = models.DecimalField(max_digits = 10, decimal_places=2)
-    size = models.CharField(max_length = 1, choices = SIZES)
-    CHEESE = '0'
-    ONE = '1'
-    TWO = '2'
-    THREE = '3'
-    SPECIAL = 'X'
-    numTOPPINGS = ( (CHEESE, 'Cheese'), (ONE, '1 Topping'), (TWO, '2 Toppings'), (THREE, '3 Toppings'), (SPECIAL, 'Special'))
-    numToppings = models.CharField(max_length = 1, choices = numTOPPINGS, default = CHEESE)
-
-    def __str__(self):
-        return f"{self.size} {self.type} {self.numToppings} pizza: price {self.price}"
-
-class Sub(models.Model):
-    type = models.CharField(max_length=64)
-    size = models.CharField(max_length = 1, choices = SIZES)
-    price = models.DecimalField(max_digits = 10, decimal_places=2)
-
-
-    def __str__(self):
-        return f"{self.size} {self.type} sub: price {self.price}"
-        
-class DinnerPlatter(models.Model):
-    name = models.CharField(max_length=64)
-    size = models.CharField(max_length = 1, choices = SIZES)
-    price = models.DecimalField(max_digits = 10, decimal_places=2)
-
-    def __str__(self):
-        return f"{self.size} {self.name} dinnerPlatter: price {self.price}"
-
-class Pasta(models.Model):
-    name = models.CharField(max_length=64)
-    price = models.DecimalField(max_digits = 10, decimal_places=2)
-
-    def __str__(self):
-        return f"{self.name}: price {self.price}"
-
-class Salad(models.Model):
-    name = models.CharField(max_length=64)
-    price = models.DecimalField(max_digits = 10, decimal_places=2)
-
-    def __str__(self):
-        return f"{self.name}: price {self.price}"
-'''
-
-
 class Item(models.Model):
     name = models.CharField(max_length = 64)
     
@@ -79,8 +22,9 @@ class Food(models.Model):
     size = models.ForeignKey(Size, on_delete=models.CASCADE, related_name="Size")
     options = (('true', 'Yes'), ('false', 'No'))
     hasToppings = models.CharField(max_length = 5, choices = options, default = 'false')
-    numToppings = models.PositiveIntegerField(default = 0)
+    numToppings = models.PositiveIntegerField(default = 0, help_text = "0 for cheese pizza")
+    name = models.CharField(max_length = 64, default = "None", help_text = "Do not include size in name")
     def __str__(self):
-        return f"{self.size} {self.item} price {self.price} has toppings: {self.hasToppings} number of toppings: {self.numToppings}"
+        return f"{self.size} {self.name} Price {self.price}"
 
 
