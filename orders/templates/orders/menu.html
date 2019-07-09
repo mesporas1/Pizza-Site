@@ -13,7 +13,7 @@
   <h2>Pizza</h2>
    {% for pizza in pizzas %}
       <li>
-        {{ pizza.size }} {{ pizza.type }} {{ pizza.numToppings }} Toppings pizza ${{ pizza.price }}
+        {{ pizza.size }} {{ pizza.item }} Toppings pizza ${{ pizza.price }}
       </li>
     {% endfor %}
 
@@ -23,7 +23,7 @@
 
     {% for sub in subs %}
       <li>
-        {{sub.size}} {{ sub.type }} ${{sub.price}}
+        {{sub.size}} {{ sub.item }} ${{sub.price}}
       </li>
     {% endfor %}
 

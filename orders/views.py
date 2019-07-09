@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.shortcuts import render
 
-#from .models import Pizza, Sub, DinnerPlatter, Pasta, Salad, Topping
+from .models import Food
 
 # Create your views here.
 def index(request):
@@ -10,19 +10,18 @@ def index(request):
         "page_text": "This is Pinnochio's Pizza home!"
     }
     return render(request, "orders/index.html", context)
-'''
+
 def menu(request):
     context = {
         "page_text": "This is Pinnochio's Pizza menu!",
-        "pizzas": Pizza.objects.all(),
-        "subs": Sub.objects.all(),
-        "dinners": DinnerPlatter.objects.all(),
-        "pastas": Pasta.objects.all(),
-        "salads": Salad.objects.all(),
-        "toppings": Topping.objects.all()
+        "pizzas": Food.objects.filter(item__name = 'Pizza'),
+        "subs": Food.objects.filter(item__name = 'Sub'),
+        "pastas": Food.objects.filter(item__name = 'Pasta'),
+        "salads": Food.objects.filter(item__name = 'Salad'),
+        "dinners": Food.objects.filter(item__name = 'Dinner Platter')
     }
     return render(request, "orders/menu.html", context)
-'''
+
 def cart(request):
     context = {
         "page_text": "This is your shopping cart!"
