@@ -26,3 +26,13 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return render(request, "users/login.html", {"message": "Logged out."})
+
+def signup_view(request):
+    return render(request, "users/signup.html")
+
+def create_user_view(request): 
+    username = request.POST["username"]
+    password = request.POST["password"]
+    email = request.POST["email address"]
+
+    return render(request, "users/login.html")
