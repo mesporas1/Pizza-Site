@@ -1,7 +1,7 @@
-{% extends "users/base.html" %}
+{% extends "orders/base.html" %}
 
 {% block body %}
-<h1>Hello, {{ user.first_name }}</h1>
+<h1 class = "main">Hello, {{ user.first_name }}</h1>
 <ul>
     <li>Currently logged in as: {{ user.username }}</li>
     <li><a href="{% url 'logout' %}">Logout</a></li>

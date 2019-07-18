@@ -35,6 +35,10 @@ def create_user_view(request):
     username = request.POST["username"]
     password = request.POST["password"]
     email = request.POST["email address"]
+    firstname = request.POST["first name"]
+    lastname = request.POST["last name"]
     user = User.objects.create_user(username, email, password)
+    user.first_name = firstname
+    user.last_name = lastname
     user.save()
     return render(request, "users/login.html")

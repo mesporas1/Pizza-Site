@@ -1,4 +1,4 @@
-{% extends "users/base.html" %}
+{% extends "orders/base.html" %}
 
 {% block title %}
   Pinnochio's Pizza
@@ -12,14 +12,33 @@
         {{ message }}
     </div>
 {% endif %}
-<form action="{% url 'createuser' %}" method="post">
+
+<form method="post" action="{% url 'createuser' %}">
     {% csrf_token %}
-    <label for="username"> Enter a username </label>
-    <input name="username" type="text"/>
-    <label for="email addresss"> Enter an email address </label>
-    <input name = "email address" type="text"/>
-    <label for="password"> Enter a password </label>
-    <input name="password" type="password"/>
-    <input type="submit" value="Signup"/>
+    <table>
+    <tr>
+        <td>First Name: </td>
+        <td><input name="first name" type="text"/></td>
+    </tr>
+    <tr>
+        <td>Last Name: </td>
+        <td><input name="last name" type="text"/></td>
+    </tr>    
+    <tr>
+        <td>Email Address: </td>
+        <td><input name="email address" type="text"/></td>
+    </tr>
+    <tr>
+        <td>Username: </td>
+        <td><input name="username" type="text"/></td>
+    </tr>
+    <tr>
+        <td>Password: </td>
+        <td><input name="password" type="password"/></td>
+    </tr>
+    </table>
+    
+    <input type="submit" value="Signup" />
 </form>
+
 {% endblock %}

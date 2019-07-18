@@ -1,4 +1,4 @@
-{% extends "users/base.html" %}
+{% extends "orders/base.html" %}
 
 {% block title %}
   Pinnochio's Pizza
@@ -14,10 +14,16 @@
 {% endif %}
 <form action="{% url 'login' %}" method="post">
     {% csrf_token %}
-    <label for="username"> Enter your username </label>
-    <input name="username" type="text"/>
-    <label for="password"> Enter your password </label>
-    <input name="password" type="password"/>
+    <table>
+            <tr>
+                <td>Username: </td>
+                <td><input name="username" type="text"/></td>
+            </tr>
+            <tr>
+                <td>Password </td>
+                <td><input name="password" type="password"/></td>
+            </tr>    
+    </table>
     <input type="submit" value="Login"/>
 </form>
 

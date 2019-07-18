@@ -27,4 +27,22 @@ class Food(models.Model):
     def __str__(self):
         return f"{self.size} {self.name} Price {self.price}"
 
+class Topping(models.Model):
+    name = models.CharField(max_length = 64)
 
+    def __str__(self):
+        return f"{self.name}"
+
+class Order(models.Model):
+    user = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="User")
+    def __str__(self):
+        return f"{self.user}'s order"
+
+
+class OrderDetail(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="Order")
+    foods = models.ManyToManyField(Food)
+    toppings = models.ManyToManyField(Topping)
+
+    def __str__(self):
+        return f"All the foods: {self.foods}. All the toppings: {self.toppings}"
