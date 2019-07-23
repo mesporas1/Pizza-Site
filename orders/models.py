@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -34,7 +35,7 @@ class Topping(models.Model):
         return f"{self.name}"
 
 class Order(models.Model):
-    user = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="User")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="User")
     def __str__(self):
         return f"{self.user}'s order"
 
