@@ -1,0 +1,21 @@
+{% extends "orders/base.html" %}
+
+{% block title %}
+  Pinnochio's Pizza
+{% endblock %}
+
+{% block body %}
+
+  <h1 class= "main">
+    {{ page_text }}
+    {% for order in orders %}
+      <li><a href="{% url 'order_details' order.id %}"> {{order}} </a></li>
+    {% empty %}
+      <li>No orders</li>
+    {% endfor %}
+  </h1>
+
+
+  
+  
+{% endblock %}

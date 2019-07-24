@@ -36,14 +36,16 @@ class Topping(models.Model):
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="User")
+    orderdetails = models.ManyToManyField(Food, through = 'OrderDetail')
     def __str__(self):
-        return f"{self.user}'s order"
+        return f"Order#{self.id}"
 
 
 class OrderDetail(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="Order")
-    foods = models.ManyToManyField(Food)
-    toppings = models.ManyToManyField(Topping)
-
+    food = models.ForeignKey(Food, on_delete=models.CASCADE, related_name="Food", default = 0)
+    quantity = models.PositiveIntegerField(default = 1)
+    topping = models.ManyToManyField(Topping, blank = True)
+    
     def __str__(self):
-        return f"All the foods: {self.foods}. All the toppings: {self.toppings}"
+        return f"All the foods: {self.food} {self.quantity}"
