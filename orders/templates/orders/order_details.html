@@ -8,9 +8,23 @@
 
   <h1 class= "main">
     {{ page_text }}
-      <li>{{order_details}}</li> 
   </h1>
-
+  <table>
+    <tr>
+      <th>Item</th>
+      <th>Toppings</th>
+      <th>Quantity</th>
+      <th>Price</th>
+    </tr>
+  {% for order_detail in order_details %}
+  <tr>
+      <td>{{order_detail.food.name}}</td>
+      <td>{{ order_detail.topping.all|join:", "|default:"None" }} </td>
+      <td>{{order_detail.quantity}}</td>
+      <td>{{order_detail.food.price}}</td>
+  </tr>  
+  {% endfor %}
+</table>
 
   
   

@@ -45,7 +45,7 @@ class OrderDetail(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="Order")
     food = models.ForeignKey(Food, on_delete=models.CASCADE, related_name="Food", default = 0)
     quantity = models.PositiveIntegerField(default = 1)
-    topping = models.ManyToManyField(Topping, blank = True)
+    topping = models.ManyToManyField(Topping, blank = True, related_name="Topping")
     
     def __str__(self):
         return f"All the foods: {self.food} {self.quantity}"

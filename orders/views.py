@@ -38,10 +38,16 @@ def orders(request):
 
 def order_details(request, order_id):
     context = {
-        "page_text": "Here is your order details!",
-        "order_details": OrderDetail.objects.get(order_id = order_id)
+        "page_text": "Here is the details to order #" + str(order_id) + "!",
+        "order_details": OrderDetail.objects.filter(order_id__exact = order_id)
     }
     return render(request, "orders/order_details.html", context)
+
+'''def add_item(request, food_id):
+    item_id = int(request.POST["food"])
+    context = {
+
+    }'''
 
 def contact(request):
     context = {

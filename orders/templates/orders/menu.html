@@ -15,6 +15,10 @@
       <li>
         {{ pizza.size }} {{ pizza.item }} Toppings pizza ${{ pizza.price }}
       </li>
+      <form action="{% url 'add_item' pizza.id%}" method="post">
+        {% csrf_token %}
+        <button type="submit" value="pizza.name">Add Item</button>
+      </form>
     {% endfor %}
 
 
