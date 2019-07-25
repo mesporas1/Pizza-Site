@@ -1,23 +1,25 @@
 {% extends "orders/base.html" %}
-
+{% load static %}
 {% block title %}
   Pinnochio's Pizza
 {% endblock %}
-
+{% block script%}
+  <script src="{% static 'orders/menu.js' %}"></script>
+{% endblock %}
 {% block body %}
 
   <h1 class= "main">
     {{ page_text }}
   </h1>
-  
+  <a href= "{% url 'cart'%}">Go to cart</a>
   <h2>Pizza</h2>
    {% for pizza in pizzas %}
       <li>
-        {{ pizza.size }} {{ pizza.item }} Toppings pizza ${{ pizza.price }}
+        {{ pizza.size }} {{ pizza.name }} ${{ pizza.price }}
       </li>
       <form action="{% url 'add_item' pizza.id%}" method="post">
         {% csrf_token %}
-        <button type="submit" value="pizza.name">Add Item</button>
+        <button class="add-item" type="submit" name="food" value="{{pizza.id}}">Add Item</button>
       </form>
     {% endfor %}
 
@@ -29,6 +31,10 @@
       <li>
         {{sub.size}} {{ sub.item }} ${{sub.price}}
       </li>
+      <form action="{% url 'add_item' sub.id%}" method="post">
+        {% csrf_token %}
+        <button class="add-item" type="submit" name="food" value="{{sub.id}}">Add Item</button>
+      </form>
     {% endfor %}
 
   <h2>Pasta</h2>
@@ -36,6 +42,10 @@
       <li>
          {{ pasta.name }} ${{pasta.price}}
       </li>
+      <form action="{% url 'add_item' pasta.id%}" method="post">
+        {% csrf_token %}
+        <button class="add-item" type="submit" name="food" value="{{pasta.id}}">Add Item</button>
+      </form>
     {% endfor %}
 
   <h2>Salad</h2>
@@ -43,6 +53,10 @@
       <li>
         {{ salad.name }} ${{salad.price}}
       </li>
+      <form action="{% url 'add_item' salad.id%}" method="post">
+        {% csrf_token %}
+        <button class="add-item" type="submit" name="food" value="{{salad.id}}">Add Item</button>
+      </form>
     {% endfor %}
 
   <h2>Dinner Platters</h2>
@@ -50,6 +64,10 @@
       <li>
         {{ dinner.size }} {{ dinner.name }} ${{dinner.price}}
       </li>
+      <form action="{% url 'add_item' dinner.id%}" method="post">
+        {% csrf_token %}
+        <button class="add-item" type="submit" name="food" value="{{dinner.id}}">Add Item</button>
+      </form>
     {% endfor %}
   
 {% endblock %}

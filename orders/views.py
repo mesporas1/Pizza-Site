@@ -1,8 +1,9 @@
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse
 
-from .models import Food, Order, OrderDetail
+from .models import Food, Order, OrderDetail, Cart, CartDetail
 
 # Create your views here.
 def index(request):
@@ -23,10 +24,15 @@ def menu(request):
     return render(request, "orders/menu.html", context)
 
 def cart(request):
+    try:
+        cart = Cart.objects.get(user = request.user)
+    except Cart.DoesNotExist:
+        return render(request,"orders/error.html",{"message": "Your shopping cart is empty"})
     context = {
-        "page_text": "This is your shopping cart!"
+        "page_text": "This is your shopping cart!",
+        "cart_details": CartDetail.objects.filter(cart_id__exact = cart.id)
     }
-    return render(request, "orders/index.html", context)
+    return render(request, "orders/cart.html", context)
 
 def orders(request):
     
@@ -43,11 +49,21 @@ def order_details(request, order_id):
     }
     return render(request, "orders/order_details.html", context)
 
-'''def add_item(request, food_id):
-    item_id = int(request.POST["food"])
-    context = {
-
-    }'''
+def add_item(request, food_id):
+    try:
+        food = Food.objects.get(pk = food_id)
+        cart = Cart.objects.get(user=request.user)
+    except Food.DoesNotExist:
+        return render(request, "orders/errors.html", {"message": "No food item"})
+    except Cart.DoesNotExist:
+        cart = Cart(user=request.user)
+        cart.save()
+        cartdetails = CartDetail(cart = cart, food = food, quantity = 1)
+        cartdetails.save()
+        return HttpResponseRedirect(reverse("menu"))
+    cartdetails = CartDetail(cart = cart, food = food, quantity = 1)
+    cartdetails.save()
+    return HttpResponseRedirect(reverse("menu"))
 
 def contact(request):
     context = {

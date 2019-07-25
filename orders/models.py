@@ -35,7 +35,7 @@ class Topping(models.Model):
         return f"{self.name}"
 
 class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="User")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="UserOrder")
     orderdetails = models.ManyToManyField(Food, through = 'OrderDetail')
     def __str__(self):
         return f"Order#{self.id}"
@@ -43,9 +43,26 @@ class Order(models.Model):
 
 class OrderDetail(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="Order")
-    food = models.ForeignKey(Food, on_delete=models.CASCADE, related_name="Food", default = 0)
+    food = models.ForeignKey(Food, on_delete=models.CASCADE, related_name="OrderFood", default = 0)
     quantity = models.PositiveIntegerField(default = 1)
-    topping = models.ManyToManyField(Topping, blank = True, related_name="Topping")
+    topping = models.ManyToManyField(Topping, blank = True, related_name="OrderTopping")
+    
+    def __str__(self):
+        return f"All the foods: {self.food} {self.quantity}"
+
+
+class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="UserCart")
+    cartdetails = models.ManyToManyField(Food, through = 'CartDetail', blank = True)
+    def __str__(self):
+        return f"Cart#{self.id}"
+
+
+class CartDetail(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name="Cart")
+    food = models.ForeignKey(Food, on_delete=models.CASCADE, related_name="CartFood", default = 0)
+    quantity = models.PositiveIntegerField(default = 1)
+    topping = models.ManyToManyField(Topping, blank = True, related_name="CartTopping")
     
     def __str__(self):
         return f"All the foods: {self.food} {self.quantity}"
