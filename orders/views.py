@@ -54,18 +54,22 @@ def add_item(request, food_id):
     try:
         food = Food.objects.get(pk = request.POST["food"])
         cart = Cart.objects.get(user=request.user)
-        print(request.POST["topping"])
-        #topping = Topping.objects.get()
+        toppings = request.POST.getlist("topping")
     except Food.DoesNotExist:
         return render(request, "orders/errors.html", {"message": "No food item"})
     except Cart.DoesNotExist:
         cart = Cart(user=request.user)
         cart.save()
         cartdetails = CartDetail(cart = cart, food = food, quantity = 1)
-        #cartdetails.add(topping)
+        cartdetails.save()
+        for topping in toppings:
+            cartdetails.topping.add(topping)
         cartdetails.save()
         return HttpResponseRedirect(reverse("menu"))
     cartdetails = CartDetail(cart = cart, food = food, quantity = 1)
+    cartdetails.save()
+    for topping in toppings:
+            cartdetails.topping.add(topping)
     cartdetails.save()
     return HttpResponseRedirect(reverse("menu"))
 
