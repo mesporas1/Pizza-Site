@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import Food, Order, OrderDetail, Cart, CartDetail
+from .models import Food, Order, OrderDetail, Cart, CartDetail, Topping
 
 # Create your views here.
 def index(request):
@@ -19,7 +19,8 @@ def menu(request):
         "subs": Food.objects.filter(item__name = 'Sub'),
         "pastas": Food.objects.filter(item__name = 'Pasta'),
         "salads": Food.objects.filter(item__name = 'Salad'),
-        "dinners": Food.objects.filter(item__name = 'Dinner Platter')
+        "dinners": Food.objects.filter(item__name = 'Dinner Platter'),
+        "toppings": Topping.objects.all()
     }
     return render(request, "orders/menu.html", context)
 
@@ -27,7 +28,7 @@ def cart(request):
     try:
         cart = Cart.objects.get(user = request.user)
     except Cart.DoesNotExist:
-        return render(request,"orders/error.html",{"message": "Your shopping cart is empty"})
+        return render(request,"orders/cart.html")
     context = {
         "page_text": "This is your shopping cart!",
         "cart_details": CartDetail.objects.filter(cart_id__exact = cart.id)
@@ -51,19 +52,27 @@ def order_details(request, order_id):
 
 def add_item(request, food_id):
     try:
-        food = Food.objects.get(pk = food_id)
+        food = Food.objects.get(pk = request.POST["food"])
         cart = Cart.objects.get(user=request.user)
+        print(request.POST["topping"])
+        #topping = Topping.objects.get()
     except Food.DoesNotExist:
         return render(request, "orders/errors.html", {"message": "No food item"})
     except Cart.DoesNotExist:
         cart = Cart(user=request.user)
         cart.save()
         cartdetails = CartDetail(cart = cart, food = food, quantity = 1)
+        #cartdetails.add(topping)
         cartdetails.save()
         return HttpResponseRedirect(reverse("menu"))
     cartdetails = CartDetail(cart = cart, food = food, quantity = 1)
     cartdetails.save()
     return HttpResponseRedirect(reverse("menu"))
+
+def remove_item(request, cart_detail_id):
+    cartdetails = CartDetail.objects.get(pk = request.POST["food"])
+    cartdetails.delete()
+    return HttpResponseRedirect(reverse("cart"))
 
 def contact(request):
     context = {

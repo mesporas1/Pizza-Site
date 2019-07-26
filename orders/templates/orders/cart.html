@@ -1,34 +1,44 @@
 {% extends "orders/base.html" %}
-
+{% load static %}
 {% block title %}
   Pinnochio's Pizza
 {% endblock %}
-
+{% block script%}
+  <script src="{% static 'orders/cart.js' %}"></script>
+{% endblock %}
 {% block body %}
 
+
+{% if cart_details %}
 <h1 class= "main">
-  {{ page_text }}
+    {{ page_text }}
 </h1>
-<table>
+  <table>
+    <tr>
+      <th>Item</th>
+      <th>Toppings</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th></th>
+    </tr>
+  {% for cart_detail in cart_details %}
   <tr>
-    <th>Item</th>
-    <th>Toppings</th>
-    <th>Quantity</th>
-    <th>Price</th>
+      <td>{{cart_detail.food.name}}</td>
+      <td>{{cart_detail.topping.all|join:", "|default:"None" }} </td>
+      <td>{{cart_detail.quantity}}</td>
+      <td>{{cart_detail.food.price}}</td>
+      <td>
+        <form action="{% url 'remove_item' cart_detail.id%}" method="post">
+          {% csrf_token %}
+          <button class="remove-item" type="submit" name="food" value="{{cart_detail.id}}">Remove Item</button>
+        </form>
+      </td>
   </tr>
-{% for cart_detail in cart_details %}
-<tr>
-    <td>{{cart_detail.food.name}}</td>
-    <td>{{cart_detail.topping.all|join:", "|default:"None" }} </td>
-    <td>{{cart_detail.quantity}}</td>
-    <td>{{cart_detail.food.price}}</td>
-</tr>  
-{% endfor %}
+  {% endfor %}
+{% else %}
+  <h1 class = "main">Your shopping cart is empty</h2>
+{% endif %}
 </table>
-<a href="{% url 'menu'%}">Back to Menu</a>
+<a href="{% url 'menu'%}">Go to Menu</a>
 
-
-
-  
-  
 {% endblock %}

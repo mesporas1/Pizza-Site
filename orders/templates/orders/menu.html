@@ -19,6 +19,15 @@
       </li>
       <form action="{% url 'add_item' pizza.id%}" method="post">
         {% csrf_token %}
+        {% if pizza.numToppings > 0 %}
+        <div class="form-group">
+            <label>Select toppings</label>
+            <select multiple name="topping" class="form-control">
+              {% for topping in toppings%}
+              <option value="{{topping.id}}">{{topping.name}}</option>
+              {% endfor %}
+            </select>
+        {% endif %}
         <button class="add-item" type="submit" name="food" value="{{pizza.id}}">Add Item</button>
       </form>
     {% endfor %}
