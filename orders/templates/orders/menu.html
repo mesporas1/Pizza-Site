@@ -24,7 +24,7 @@
             <label>Select <a id ="numToppings{{pizza.id}}"> {{ pizza.numToppings }}</a> toppings</label>
             <div name="topping" data-numTop="{{pizza.numToppings}}" class="form-control toppings">
               {% for topping in toppings%}
-              <input type="checkbox" value="{{topping.id}}">{{topping.name}} <br>
+              <input type="checkbox" name = "toppings" value="{{topping.id}}">{{topping.name}} <br>
               {% endfor %}
             </div>
         {% endif %}
