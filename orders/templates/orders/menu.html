@@ -21,12 +21,12 @@
         {% csrf_token %}
         {% if pizza.numToppings > 0 %}
         <div class="form-group">
-            <label>Select toppings</label>
-            <select multiple name="topping" class="form-control">
+            <label>Select <a id ="numToppings{{pizza.id}}"> {{ pizza.numToppings }}</a> toppings</label>
+            <div name="topping" data-numTop="{{pizza.numToppings}}" class="form-control toppings">
               {% for topping in toppings%}
-              <option value="{{topping.id}}">{{topping.name}}</option>
+              <input type="checkbox" value="{{topping.id}}">{{topping.name}} <br>
               {% endfor %}
-            </select>
+            </div>
         {% endif %}
         <button class="add-item" type="submit" name="food" value="{{pizza.id}}">Add Item</button>
       </form>
