@@ -31,7 +31,8 @@ def cart(request):
         return render(request,"orders/cart.html")
     context = {
         "page_text": "This is your shopping cart!",
-        "cart_details": CartDetail.objects.filter(cart_id__exact = cart.id)
+        "cart_details": CartDetail.objects.filter(cart_id__exact = cart.id),
+        "cart": cart
     }
     return render(request, "orders/cart.html", context)
 
@@ -54,20 +55,24 @@ def add_item(request, food_id):
     try:
         food = Food.objects.get(pk = request.POST["food"])
         cart = Cart.objects.get(user=request.user)
-        toppings = request.POST.getlist("toppings")
     except Food.DoesNotExist:
         return render(request, "orders/errors.html", {"message": "No food item"})
     except Cart.DoesNotExist:
         cart = Cart(user=request.user)
+        cart.total += food.price
         cart.save()
         cartdetails = CartDetail(cart = cart, food = food, quantity = 1)
         cartdetails.save()
+        toppings = request.POST.getlist("toppings")
         for topping in toppings:
             cartdetails.topping.add(topping)
         cartdetails.save()
         return HttpResponseRedirect(reverse("menu"))
+    cart.total += food.price
+    cart.save()
     cartdetails = CartDetail(cart = cart, food = food, quantity = 1)
     cartdetails.save()
+    toppings = request.POST.getlist("toppings")
     for topping in toppings:
             cartdetails.topping.add(topping)
     cartdetails.save()
@@ -75,7 +80,13 @@ def add_item(request, food_id):
 
 def remove_item(request, cart_detail_id):
     cartdetails = CartDetail.objects.get(pk = request.POST["food"])
+    cart = Cart.objects.get(user=request.user)
+    print(cart.total)
+    print(cartdetails.food.price)
+    cart.total -= cartdetails.food.price
+    cart.save()
     cartdetails.delete()
+    
     return HttpResponseRedirect(reverse("cart"))
 
 def contact(request):

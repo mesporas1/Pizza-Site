@@ -37,6 +37,7 @@ class Topping(models.Model):
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="UserOrder")
     orderdetails = models.ManyToManyField(Food, through = 'OrderDetail')
+    total = models.DecimalField(max_digits = 10, decimal_places=2,validators=[MinValueValidator(0)], default = 0)
     def __str__(self):
         return f"Order#{self.id}"
 
@@ -54,6 +55,7 @@ class OrderDetail(models.Model):
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="UserCart")
     cartdetails = models.ManyToManyField(Food, through = 'CartDetail', blank = True)
+    total = models.DecimalField(max_digits = 10, decimal_places=2,validators=[MinValueValidator(0)], default = 0)
     def __str__(self):
         return f"Cart#{self.id}"
 
