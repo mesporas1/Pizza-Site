@@ -54,11 +54,19 @@ def order_details(request, order_id):
 
 @require_http_methods(["POST"])
 def add_item(request, food_id):
+    quantity = request.POST["quantity"]
+    print(quantity)
+    print(type(quantity))
+    if  quantity == "":
+        print(quantity)
+        return render(request, "orders/error.html", {"message": "A value must be entered"})
+    elif quantity < 1:
+        return render(request, "orders/error.html", {"message": "The quantity must be greater than 0"})
     try:
         food = Food.objects.get(pk = request.POST["food"])
         cart = Cart.objects.get(user=request.user)
     except Food.DoesNotExist:
-        return render(request, "orders/errors.html", {"message": "No food item"})
+        return render(request, "orders/error.html", {"message": "No food item"})
     except Cart.DoesNotExist:
         cart = Cart(user=request.user)
         cart.total += food.price

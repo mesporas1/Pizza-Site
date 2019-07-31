@@ -1,10 +1,36 @@
 document.addEventListener('DOMContentLoaded', () => {
-    var itembutton = document.querySelectorAll('.add-item');
-    itembutton.forEach(function(item){
-        item.onclick = () => {alert("Item added to cart")};
+    var orderForm = document.querySelectorAll('.submitOrder');
+    orderForm.forEach(function(order){
+        order.addEventListener('submit', () => {
+            var item = order.children;
+            for (var i=0; i<item.length; i++){
+                if (item[i].getAttribute("input") == "number"{
+
+                }
+            }
+        });
     });
 
-    
+
+    var orderForm = document.querySelectorAll('.submitOrder');
+    orderForm.forEach(function(order){
+        
+            var item = order.children;
+			console.log(item[1]);
+    });
+
+    // Select your input element.
+    var number = document.querySelectorAll('.quantity');
+    // Listen for input event on numInput.
+    number.forEach(function(item){
+        item.onkeydown = function(e) {
+            if(!((e.keyCode > 95 && e.keyCode < 106)
+            || (e.keyCode > 47 && e.keyCode < 58) 
+            || e.keyCode == 8)) {
+                return false;
+            }
+        };
+    });
 });
 
 document.addEventListener('click', function(e) {

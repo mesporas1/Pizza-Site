@@ -17,17 +17,20 @@
       <li>
         {{ pizza.size }} {{ pizza.name }} ${{ pizza.price }}
       </li>
-      <form action="{% url 'add_item' pizza.id%}" method="post">
+      <form action="{% url 'add_item' pizza.id%}" method="post" class="submitOrder">
         {% csrf_token %}
         {% if pizza.numToppings > 0 %}
         <div class="form-group">
             <label>Select <a id ="numToppings{{pizza.id}}"> {{ pizza.numToppings }}</a> toppings</label>
             <div name="topping" data-numTop="{{pizza.numToppings}}" class="form-control toppings">
-              {% for topping in toppings%}
-              <input type="checkbox" name = "toppings" value="{{topping.id}}">{{topping.name}} <br>
-              {% endfor %}
+                {% for topping in toppings%}
+                <input type="checkbox" name = "toppings" value="{{topping.id}}">{{topping.name}} <br>
+                {% endfor %}
             </div>
+        </div>
         {% endif %}
+        Quantity:
+        <input type="number" class = "quantity" name="quantity" min="1" value="1">
         <button class="add-item" type="submit" name="food" value="{{pizza.id}}">Add Item</button>
       </form>
     {% endfor %}
