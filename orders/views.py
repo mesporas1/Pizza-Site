@@ -48,20 +48,18 @@ def orders(request):
 def order_details(request, order_id):
     context = {
         "page_text": "Here is the details to order #" + str(order_id) + "!",
-        "order_details": OrderDetail.objects.filter(order_id__exact = order_id)
+        "order_details": OrderDetail.objects.filter(order_id__exact = order_id),
+        "order": Order.objects.get(pk = order_id)
     }
     return render(request, "orders/order_details.html", context)
 
 @require_http_methods(["POST"])
 def add_item(request, food_id):
-    quantity = request.POST["quantity"]
+    quantity = int(request.POST["quantity"] or 0)
     print(quantity)
     print(type(quantity))
-    if  quantity == "":
-        print(quantity)
-        return render(request, "orders/error.html", {"message": "A value must be entered"})
-    elif quantity < 1:
-        return render(request, "orders/error.html", {"message": "The quantity must be greater than 0"})
+    if quantity < 1:
+        return render(request, "orders/error.html", {"message": "The quantity must be valid and greater than 0"})
     try:
         food = Food.objects.get(pk = request.POST["food"])
         cart = Cart.objects.get(user=request.user)
@@ -69,18 +67,18 @@ def add_item(request, food_id):
         return render(request, "orders/error.html", {"message": "No food item"})
     except Cart.DoesNotExist:
         cart = Cart(user=request.user)
-        cart.total += food.price
+        cart.total += food.price *  quantity
         cart.save()
-        cartdetails = CartDetail(cart = cart, food = food, quantity = 1)
+        cartdetails = CartDetail(cart = cart, food = food, quantity = quantity)
         cartdetails.save()
         toppings = request.POST.getlist("toppings")
         for topping in toppings:
             cartdetails.topping.add(topping)
         cartdetails.save()
         return HttpResponseRedirect(reverse("menu"))
-    cart.total += food.price
+    cart.total += food.price * quantity
     cart.save()
-    cartdetails = CartDetail(cart = cart, food = food, quantity = 1)
+    cartdetails = CartDetail(cart = cart, food = food, quantity = quantity)
     cartdetails.save()
     toppings = request.POST.getlist("toppings")
     for topping in toppings:
