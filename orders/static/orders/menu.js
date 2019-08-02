@@ -1,22 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-    var orderForm = document.querySelectorAll('.submitOrder');
-    orderForm.forEach(function(order){
-        order.addEventListener('submit', () => {
-            var item = order.children;
-            for (var i=0; i<item.length; i++){
-                if (item[i].getAttribute("input") == "number"{
-
-                }
-            }
-        });
-    });
-
-
-    var orderForm = document.querySelectorAll('.submitOrder');
-    orderForm.forEach(function(order){
-        
-            var item = order.children;
-			console.log(item[1]);
+    var itembutton = document.querySelectorAll('.add-item');
+    itembutton.forEach(function(item){
+        item.onclick = () => {alert("Item added to cart")};
     });
 
     // Select your input element.
