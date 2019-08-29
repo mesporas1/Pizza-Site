@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
     });
+
 });
 
 document.addEventListener('click', function(e) {

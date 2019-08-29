@@ -27,7 +27,7 @@
                 <input type="checkbox" name = "toppings" value="{{topping.id}}">{{topping.name}} <br>
                 {% endfor %}
             </div>
-        </div>
+          </div>
         {% endif %}
         Quantity:
         <input type="number" class = "quantity" name="quantity" min="1" value="1">
@@ -40,45 +40,56 @@
   <h2>Subs</h2>
 
     {% for sub in subs %}
-      <li>
-        {{sub.size}} {{ sub.item }} ${{sub.price}}
-      </li>
+      
       <form action="{% url 'add_item' sub.id%}" method="post">
-        {% csrf_token %}
+        {% csrf_token %}<li>
+          {{sub.size}} {{ sub.item }} ${{sub.price}}
+          Quantity:
+          <input type="number" class = "quantity" name="quantity" min="1" value="1">
         <button class="add-item" type="submit" name="food" value="{{sub.id}}">Add Item</button>
+        </li> 
       </form>
     {% endfor %}
 
   <h2>Pasta</h2>
    {% for pasta in pastas %}
-      <li>
-         {{ pasta.name }} ${{pasta.price}}
-      </li>
+      
       <form action="{% url 'add_item' pasta.id%}" method="post">
         {% csrf_token %}
-        <button class="add-item" type="submit" name="food" value="{{pasta.id}}">Add Item</button>
+      <li>
+         {{ pasta.name }} ${{pasta.price}}
+          Quantity:
+        <input type="number" class = "quantity" name="quantity" min="1" value="1">
+          <button class="add-item" type="submit" name="food" value="{{pasta.id}}">Add Item</button>
+      </li>
       </form>
     {% endfor %}
 
   <h2>Salad</h2>
     {% for salad in salads %}
-      <li>
-        {{ salad.name }} ${{salad.price}}
-      </li>
+    
       <form action="{% url 'add_item' salad.id%}" method="post">
         {% csrf_token %}
-        <button class="add-item" type="submit" name="food" value="{{salad.id}}">Add Item</button>
+      <li>
+        {{ salad.name }} ${{salad.price}}
+          Quantity:
+        <input type="number" class = "quantity" name="quantity" min="1" value="1">
+          <button class="add-item" type="submit" name="food" value="{{salad.id}}">Add Item</button>
+      </li>
       </form>
     {% endfor %}
 
   <h2>Dinner Platters</h2>
     {% for dinner in dinners %}
-      <li>
-        {{ dinner.size }} {{ dinner.name }} ${{dinner.price}}
-      </li>
+      
       <form action="{% url 'add_item' dinner.id%}" method="post">
         {% csrf_token %}
-        <button class="add-item" type="submit" name="food" value="{{dinner.id}}">Add Item</button>
+      <li>
+        {{ dinner.size }} {{ dinner.name }} ${{dinner.price}}
+          Quantity:
+        <input type="number" class = "quantity" name="quantity" min="1" value="1" size = "3">
+          <button class="add-item" type="submit" name="food" value="{{dinner.id}}">Add Item</button>
+      </li>
       </form>
     {% endfor %}
   

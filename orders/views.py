@@ -38,11 +38,16 @@ def cart(request):
     return render(request, "orders/cart.html", context)
 
 def orders(request):
-    
-    context = {
-        "page_text": "This is your submitted orders!",
-        "orders": Order.objects.filter(user__exact = request.user.id)
-    }
+    if request.user.is_staff:
+        context = {
+            "page_text": "This is all of the submitted orders!",
+            "orders": Order.objects.all()
+        }
+    else:
+        context = {
+            "page_text": "This is your submitted orders!",
+            "orders": Order.objects.filter(user__exact = request.user.id)
+        }
     return render(request, "orders/orders.html", context)    
 
 def order_details(request, order_id):
